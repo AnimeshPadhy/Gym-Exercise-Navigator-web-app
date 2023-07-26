@@ -141,3 +141,8 @@ body {
     width: 280px;
   }
 }
+
+.MuiBox-root{
+  margin: 0;
+  width: 100%;
+}
