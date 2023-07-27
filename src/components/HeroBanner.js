@@ -1,51 +1,111 @@
-import React from 'react'
-import {Box,Stack,Typography,Button,Divider } from '@mui/material';
-
-import HeroBannerImage from '../assets/images/banner.png';
-import { DisplaySettings } from '@mui/icons-material';
+import React from "react";
+import heroImage from "../assets/images/hero-image.jpg"
 
 const HeroBanner = () => {
   return (
-    <Box sx={{
-      mt: {lg: '212px', xs:"70px"},
-      ml: {sm: '50px'}
-    }} position="relative" p="24px">
-      <Typography fontFamily= "Oswald, sans-serif" color="#0E6655" fontWeight="700"
-        sx={{fontSize: {lg: '44px', xs:'40px'}}}
-        mb='33px' mt='30px'
-      >
-        PATIENCE, <br/> BELIEVE AND<br /> CONSISTENCY
-      </Typography>
-      <Divider
-        sx={{
-          mt:'0',
-          mb:'20px',
-          ml:'0',
-          mr:'0' // You can adjust the margin to control spacing around the divider
-        }} />
-      <Typography fontSize='22px'
-      lineHeight='35px' mt={2} mb={4}>
-        Check out the most effective exercises
-      </Typography>
-      <Button variant='contained' color='success' href='#exercises'
-        sx={{padding:'10px 15px'}}>
-        Explore
-      </Button>
-      <Typography 
-        fontWeight={600}
-        color='#0E6655'
-        sx={{
-          opacity: 0.1,
-          display: {lg:'block', xs:'none'}
+    <div
+      style={{
+        height: "90vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          height: "40%",
+          width: "100%",
+          background: "white",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        fontSize='200px'
-        marginTop='55px'
       >
-        NO EXCUSES
-      </Typography>
-      <img src={HeroBannerImage} alt='banner' className='hero-banner-img'/>
-    </Box>
-  )
-}
+        <h1 style={{ fontSize: "4.7rem" ,fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '800'}}>
+          FIND YOUR <br /> STRENGTH
+        </h1>
+      </div>
+      <div
+        style={{
+          height: "60%",
+          width: "98%",
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: "20px",
+        }}
+      >
+        <img
+          // src={require("../assets/images/anastase-maragos-7kEpUPB8vNk-unsplash.jpg").default}
+          src={heroImage}
+          alt="img"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
 
-export default HeroBanner
+        <div
+          style={{
+            position: "absolute",
+            bottom: "22%",
+            right: "37%",
+            textAlign: "center",
+            padding: "8px 16px",
+            color: "white",
+            borderRadius: "4px",
+          }}
+        >
+          <h1 style={{ fontSize: "5.8rem", margin: "0", fontFamily: 'Roboto Condensed, sans-serif', fontWeight:'800'}}>
+            INSIDE <br /> AND OUT.
+          </h1>
+        </div>
+      </div>
+      <button
+  style={{
+    position: 'absolute',
+    bottom: '40px',
+    right: '40px',
+    fontFamily: 'Roboto Condensed, sans-serif',
+    background: 'grey',
+    color: 'white',
+    padding: '10px 20px',
+    borderRadius: '4px',
+    fontSize: '1rem',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background 0.3s ease', // Add smooth transition on background change
+  }}
+  // Hover Style
+  onMouseOver={(e) => {
+    e.target.style.background = 'darkgrey';
+  }}
+  // Press (Active) Style
+  onMouseDown={(e) => {
+    e.target.style.background = 'black';
+  }}
+  // Reset Style on Mouse Up (when press is released)
+  onMouseUp={(e) => {
+    e.target.style.background = 'grey';
+  }}
+  // Reset Style on Mouse Leave (when mouse moves away from the button)
+  onMouseLeave={(e) => {
+    e.target.style.background = 'grey';
+  }}
+  onClick={() => {
+    // Add your onclick functionality here
+    // For example, you can navigate to the "exercises" section using smooth scroll
+    const exercisesSection = document.getElementById('exercises');
+    exercisesSection.scrollIntoView({ behavior: 'smooth' });
+  }}
+>
+  Explore
+</button>
+
+    </div>
+  );
+};
+
+export default HeroBanner;

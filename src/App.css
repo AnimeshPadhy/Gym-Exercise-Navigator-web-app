@@ -1,6 +1,6 @@
 body {
-  font-family: 'Ysabeau Infant', sans-serif;
-  background-color: #FFFAFB;
+  font-family: 'Noto Sans', sans-serif;
+  background-color: white;
 }
 
 * {
@@ -146,3 +146,9 @@ body {
   margin: 0;
   width: 100%;
 }
+
+
+
+
+/* Add your styles here */
+

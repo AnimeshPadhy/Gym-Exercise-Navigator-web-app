@@ -1,113 +1,104 @@
-import React, {useEffect, useState } from 'react';
-import { Button,Box,Stack,TextField,Typography } from '@mui/material';
-
-import { exerciseOptions,fetchData } from '../utils/fetchData';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Box, Stack, TextField, Typography } from '@mui/material';
+import { exerciseOptions, fetchData } from '../utils/fetchData';
 import HorizontalScrollbar from './HorizontalScrollbar';
 
-const SearchExercises = ({ setExercises, bodyPart, setBodyPart}) => {
-  const [search, setSearch] = useState('')
-  const [bodyParts, setBodyParts] = useState([])
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
+  const [search, setSearch] = useState('');
+  const [bodyParts, setBodyParts] = useState([]);
+  const exercisesRef = useRef(null); // Create a ref for the exercises section
 
   useEffect(() => {
-    const fetchExercisesData = async() => {
-      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList',exerciseOptions);
-
+    const fetchExercisesData = async () => {
+      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
       setBodyParts(['all', ...bodyPartsData]);
-    }
+    };
 
     fetchExercisesData();
-  }, [])
+  }, []);
 
-  const handleSearch = async() => {
-    if(search){
+  const handleSearch = async () => {
+    if (search) {
+      // Scroll to the '#exercises' section after setting the exercises data
+      if (exercisesRef.current) {
+        exercisesRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+
       const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
 
       const searchedExercises = exercisesData.filter(
-        (exercise) => exercise.name.toLowerCase().includes(search)
-        || exercise.target.toLowerCase().includes(search)
-        || exercise.equipment.toLowerCase().includes(search)
-        || exercise.bodyPart.toLowerCase().includes(search)
+        (exercise) =>
+          exercise.name.toLowerCase().includes(search) ||
+          exercise.target.toLowerCase().includes(search) ||
+          exercise.equipment.toLowerCase().includes(search) ||
+          exercise.bodyPart.toLowerCase().includes(search)
       );
 
       setSearch('');
-      setExercises(searchedExercises);
+      setExercises(searchedExercises); 
     }
-  }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="100vh" // Ensures the content is centered vertically on the page
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
       <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
-        <Typography
-          fontWeight={700}
-          sx={{
-            fontSize: { lg: '44px', xs: '30px' },
-          }}
-          mb="50px"
-          textAlign="center"
-        >
+        <Typography fontWeight={700} sx={{ fontSize: { lg: '44px', xs: '30px' } }} mb="50px" textAlign="center" fontFamily="Noto Sans, sans-serif">
           Aweseome Exercises You <br /> Should Know
         </Typography>
-        <Box positiion="relative" mb="72px">
-          <TextField
-            sx={{
-              input: {
-                fontWeight: '700',
-                border: 'none',
-                borderRadius: '4px',
-              },
-              width: { lg: '800px', xs: '350px' },
-              borderRadius: '40px',
-            }}
-            height="76px"
-            value={search}
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            placeholder="Search Exercises"
-            type="text"
-          />
-          <Button
-            className="search-btn"
-            sx={{
-              bgcolor: '#229954',
-              color: '#fff',
-              textTransform: 'none',
-              width: { lg: '175px', xs: '80px' },
-              fontSize: { lg: '20px', xs: '14px' },
-              height: '56px',
-              position: 'absolute',
-            }}
-            onClick={handleSearch}
-          >
-            Search
-          </Button>
-        </Box>
-        <Box
-          sx={{
-            position: 'relative',
-            p: '20px',
-            width: '100%',
-            maxWidth: {
-              xs: '400px', // Max width for extra-small screens (smallest)
-              sm: '700px', // Max width for small screens
-              lg: '1300px', // Max width for large screens and above
-            },
-          }}
-        >
-          <HorizontalScrollbar
-            data={bodyParts}
-            bodyPart={bodyPart}
-            setBodyPart={setBodyPart}
-            isBodyParts
-          />
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Box position="relative" mb="72px" style={{ display: 'flex' }}>
+            <TextField
+              sx={{
+                input: {
+                  fontWeight: '700',
+                  border: 'none',
+                  borderRadius: '4px',
+                },
+                width: { lg: '800px', xs: '350px' },
+                borderRadius: '40px',
+              }}
+              height="76px"
+              value={search}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              placeholder="Search Exercises"
+              type="text"
+              onKeyDown={handleKeyDown}
+            />
+            <Button
+              className="search-btn"
+              sx={{
+                bgcolor: '#229954',
+                color: '#fff',
+                textTransform: 'none',
+                width: { lg: '175px', xs: '80px' },
+                fontSize: { lg: '20px', xs: '14px' },
+                height: '56px',
+                position: 'absolute',
+                right: '0',
+                top: '0',
+              }}
+              onClick={handleSearch}
+            >
+              Search
+            </Button>
+          </Box>
+        </div>
+        <Box sx={{ position: 'relative', width: '100%', maxWidth: { xs: '400px', sm: '700px', lg: '1300px' } }}>
+          <HorizontalScrollbar data={bodyParts} bodyPart={bodyPart} setBodyPart={setBodyPart} isBodyParts />
         </Box>
       </Stack>
+      {/* Other content on the page */}
+      <div ref={exercisesRef} id="exercises" style={{ height: '0px',margin:'0px',padding:'0px' }}>
+        {/* Your exercises content */}
+      </div>
     </Box>
-  )
-}
+  );
+};
 
-export default SearchExercises
+export default SearchExercises;
