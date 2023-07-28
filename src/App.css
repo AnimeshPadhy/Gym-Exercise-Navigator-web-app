@@ -23,7 +23,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #FF2625;
+  color: #056f31;
   font-size: 25px;
   border-radius: 4px;
   position: absolute;
@@ -66,8 +66,8 @@ body {
 .exercise-card {
   width: 400px;
   height: 445px;
-  background: #fff;
-  border-top: 4px solid #FF2625;
+  background: #ECF0F1;
+  border-top: 4px solid #056f31;
   border-bottom-left-radius: 20px;
   text-decoration: none;
   display: flex;
@@ -148,7 +148,33 @@ body {
 }
 
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.loading div {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #808B96; 
+  animation: loaderAnimation 1s infinite ease-in-out;
+}
 
-/* Add your styles here */
+@keyframes loaderAnimation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
 
